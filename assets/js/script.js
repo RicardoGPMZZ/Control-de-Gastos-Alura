@@ -1,12 +1,17 @@
 
+
+
 let nombreGasto = document.getElementById("nombreGasto");
 let valorGasto = document.getElementById("valorGasto");
 
 let botonAdd = document.getElementById("botonFormulario");
 let descripcionGasto = document.getElementById("descripcionGasto");
 
-let gastos = [];
+let gastos = localStorage.getItem("gastos") ? JSON.parse(localStorage.getItem("gastos")) : [];
 
+window.onload = () => {
+    actualizarListaGastos();
+}
 
 botonAdd.addEventListener("click", () => {
 
@@ -18,6 +23,8 @@ botonAdd.addEventListener("click", () => {
     };
 
     gastos.push(gasto);
+
+    localStorage.setItem("gastos", JSON.stringify(gastos));
 
     if (gasto.valor > 150) {
 
@@ -76,6 +83,7 @@ function limpiarCampos() {
 function borrar(posicion) {
 
     gastos.splice(posicion, 1);
+    localStorage.setItem("gastos", JSON.stringify(gastos));
     actualizarListaGastos();
     
 }
@@ -84,6 +92,8 @@ function editar(posicion) {
     gastos[posicion].nombre = nombreGasto.value;
     gastos[posicion].valor = Number(valorGasto.value);
     gastos[posicion].descripcion = descripcionGasto.value;
+
+    localStorage.setItem("gastos", JSON.stringify(gastos));
 
     actualizarListaGastos();
     limpiarCampos();
